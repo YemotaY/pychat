@@ -239,13 +239,22 @@ Für ein Projekt, bei dem Flask (Backend) und React Native (Frontend) zusammenar
 Diese Schnittstellen werden üblicherweise als RESTful APIs oder GraphQL-APIs definiert. Im Folgenden werden die wesentlichen Aspekte und Schritte beschrieben, die für die Erstellung und den Betrieb dieser Schnittstellen notwendig sind:
 
 1. API-Design und -Struktur\
-RESTful APIs: Flask wird typischerweise verwendet, um RESTful APIs zu erstellen. Das bedeutet, dass HTTP-Methoden (GET, POST, PUT, DELETE) verwendet werden, um mit den Daten des Backends zu interagieren.
-Beispiel: GET /api/users für eine Liste aller Benutzer, POST /api/login für den Login.
-Endpunkte: Jeder API-Endpunkt sollte klar definierte Ressourcen und Parameter haben. Zum Beispiel:
-GET /api/items: Listet alle verfügbaren Artikel.
-POST /api/items: Fügt einen neuen Artikel hinzu.
-GET /api/items/{id}: Zeigt Details zu einem Artikel an.
-Routen und Controller: In Flask werden Routen und Controller definiert, um die Anfragen der Benutzer zu verarbeiten.
+    RESTful APIs: Flask wird typischerweise verwendet, um RESTful APIs zu erstellen. Das bedeutet, dass HTTP-Methoden (GET, POST, PUT, DELETE) verwendet werden, um mit den Daten des Backends zu interagieren.
+
+    Beispiel:\
+    GET /api/users für eine Liste aller Benutzer, POST /api/login für den Login.\
+    Endpunkte: Jeder API-Endpunkt sollte klar definierte Ressourcen und Parameter haben. Zum Beispiel:
+
+    GET /api/items:\
+    Listet alle verfügbaren Artikel.
+
+    POST /api/items:\
+    Fügt einen neuen Artikel hinzu.
+
+    GET /api/items/{id}:\
+    Zeigt Details zu einem Artikel an.
+
+    Routen und Controller: In Flask werden Routen und Controller definiert, um die Anfragen der Benutzer zu verarbeiten.
     ```python
     from flask import Flask, jsonify, request
 
@@ -264,11 +273,10 @@ Routen und Controller: In Flask werden Routen und Controller definiert, um die A
         new_item['id'] = new_id
         items.append(new_item)
         return jsonify(new_item), 201
-
-    ...
+    #...
     if __name__ == '__main__':
         app.run(debug=True)
-
+    ```
 
 2. Datenübertragung und Format\
 JSON als Standardformat: Um eine nahtlose Kommunikation zu gewährleisten, wird JSON (JavaScript Object Notation) als Standardformat verwendet, da sowohl Flask als auch React Native nativ mit JSON arbeiten können.
@@ -955,4 +963,10 @@ Sprachmodell-Feinabstimmung: Feineinstellung der Sprachmodelle für eine besser 
 Multimodale Fähigkeiten: Integriere Bild- und Audioverarbeitung für erweiterte Interaktionen.\
 
 
-More will follow next days!
+### _Linkliste_
+<a href="">Python<a>\
+<a href="">NodeJS<a>\
+<a href="">VSCode<a>\
+<a href="">Kaggle<a>\
+<a href="">Hugginface<a>\
+<a href="">wikipedia<a>
