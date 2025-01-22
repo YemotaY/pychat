@@ -2,16 +2,16 @@
 ## 1. Projektvorbereitung
 ### 1.1. Framework + Bibliotheken
 1. Frameworks\
-    ***Python3***         Muss systemweitinstalliert sein, zu venv erstellung. <a href="https://www.python.org/">Website</a>\
-    ***NPM/NodeJS***      für Webserver und Mobile-App. <a href="https://nodejs.org/">Website</a>
+    ***Python3***         muss systemweit installiert sein, zu venv erstellung. <a href="https://www.python.org/">Python3</a>\
+    ***NPM/NodeJS***      für Webserver und Mobile-App. <a href="https://nodejs.org/">NodeJS</a>
 2. Bibliotheken\
-    ***NumPy***           für schnellere numerische Berechnungen. <a href="https://numpy.org/">Website</a>\
-    ***Matplotlib***      für die Visualisierung von Daten(für Modellbewertungen). <a href="https://matplotlib.org/">Website</a>\
-    ***Pandas***          für die schnellere Datenmanipulation+analyse. <a href="https://pandas.pydata.org/docs/">Website</a>\
-    ***scikit-learn***    für klassische ML-Modelle+Vorverarbeitung. <a href="https://scikit-learn.org/stable/index.html">Website</a>\
-    ***TensorFlow***      für das Erstellen und Trainieren neuronaler Netzwerke. <a href="https://www.tensorflow.org/">Website</a>\
-    ***Flask***           für schnittstellen. <a href="https://flask.palletsprojects.com/">Website</a> \
-    ***reactNative***     für front end. <a href="https://reactnative.dev/">Website</a> 
+    ***NumPy***           für schnellere numerische Berechnungen. <a href="https://numpy.org/">NumPy</a>\
+    ***Matplotlib***      für die Visualisierung von Daten(für Modellbewertungen). <a href="https://matplotlib.org/">Matplotlib</a>\
+    ***Pandas***          für die schnellere Datenmanipulation+analyse. <a href="https://pandas.pydata.org/docs/">Pandas</a>\
+    ***scikit-learn***    für klassische ML-Modelle+Vorverarbeitung. <a href="https://scikit-learn.org/stable/index.html">scikit-learn</a>\
+    ***TensorFlow***      für das Erstellen und Trainieren neuronaler Netzwerke. <a href="https://www.tensorflow.org/">TensorFlow</a>\
+    ***Flask***           für schnittstellen. <a href="https://flask.palletsprojects.com/">Flask</a> \
+    ***reactNative***     für front end. <a href="https://reactnative.dev/">reactNative</a> 
 3. ETC\
     ***bash/powershell*** für die lokale Befehlausführung auf os ebene\
 
@@ -20,11 +20,13 @@
 
 0. Erstelle ein Hauptverzeichnis und Unterordner:
     ```powershell
-    chatbot_project/
-    ├── data/
-    ├── models/
-    ├── src/
-    ├── tests/
+    Chatpy/
+    ├── data/               >Trainingsdaten
+    ├── venvChatpy/         >python venv
+    ├── chatbot-webapp/     >reactNative
+    ├── models/             >Modellgewichte
+    ├── src/                >Klassen/Sourcecode
+    ├── tests/              >Unittests
     └── README.md
     ```
 
@@ -121,125 +123,126 @@ Eine Möglichkeit, fehlende Datensätze zu ergänzen, besteht darin, eigene Date
 Plattformen wie Amazon Mechanical Turk oder Prolific können genutzt werden, um Konversationsbeispiele zu erstellen.
 
 ### 2.2. Datenvorbereitung
-Datenbereinigung und Serialisierung\
+1. Datenbereinigung und Serialisierung\
 Die erste Stufe der Datenvorbereitung ist die Bereinigung der Eingabedaten. Dies umfasst die Entfernung von nicht relevanten Inhalten, wie z. B. Stoppwörtern (z. B. "und", "der", "die", "in", "auf"), die keine Informationsdichte besitzen und den Lernprozess stören könnten. Außerdem müssen HTML-Tags, Sonderzeichen, Zahlen oder andere nicht benötigte Textbestandteile entfernt werden. Serialisierung sorgt dafür, dass die Daten in ein Format gebracht werden, das vom Algorithmus verarbeitet werden kann, wie etwa JSON oder CSV. Hier werden also auch Daten in eine strukturierte Form gebracht, die maschinell verarbeitet werden kann.
 
-Tokenisierung\
+2. Tokenisierung\
 Tokenisierung ist der Prozess, bei dem der Text in seine kleineren Einheiten, sogenannte Tokens, zerlegt wird. Tokens sind in der Regel Wörter, aber auch Satzzeichen oder andere relevante Bestandteile des Textes. Ziel der Tokenisierung ist es, den Text in eine Struktur zu bringen, die von Modellen wie Natural Language Processing (NLP) genutzt werden kann. Die Tokenisierung sorgt dafür, dass der Text in verarbeitbare Bausteine zerlegt wird, die als Grundlage für weitere Verarbeitungsschritte dienen.
 
-Datennormalisierung (Stemming und Lemmatization)\
+3. Datennormalisierung (Stemming und Lemmatization)\
 Nach der Tokenisierung müssen die Wörter normalisiert werden, damit Varianten eines Wortes als dieselbe Einheit betrachtet werden. Zwei gängige Verfahren hierfür sind:
 
-Stemming:\
+4. Stemming:\
 Hierbei wird ein Wort auf seinen Stamm reduziert, häufig unter Verwendung von Heuristiken. Zum Beispiel wird aus "laufend" der Stamm "lauf".
 Lemmatisierung:\
 Hierbei wird ein Wort auf seine Grundform reduziert, die in einem Lexikon nachgeschlagen wird.\
 Zum Beispiel wird aus "ging" das Lemma "gehen". Im Vergleich zum Stemming führt die Lemmatisierung zu präziseren und sprachlich korrekten Grundformen.
 Diese Schritte helfen dabei, verschiedene Flexionen und Varianten eines Wortes zu vereinheitlichen, was den Algorithmus effizienter macht.
 
-Strukturierung und Sortierung der Daten\
+5. Strukturierung und Sortierung der Daten\
 Nachdem die Daten bereinigt, tokenisiert und normalisiert wurden, müssen sie in einer für das Modell geeigneten Weise strukturiert und sortiert werden. In der Regel werden sie in einem Vektorraum abgelegt, wobei jedes Wort oder Token durch einen numerischen Vektor (z. B. durch Word Embeddings wie Word2Vec, GloVe oder BERT) repräsentiert wird. Die Daten müssen zudem nach der Art ihrer Nutzung sortiert werden, z. B. nach Trainings-, Validierungs- und Testdaten. Eine sinnvolle Aufteilung ist wichtig, um Überanpassung (Overfitting) zu vermeiden und eine gute Generalisierbarkeit des Modells zu erreichen.
 
-```python
-import re
-import string
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer, WordNetLemmatizer
-from sklearn.model_selection import train_test_split
-import json
-import pandas as pd
+    ```python
+    import re
+    import string
+    import nltk
+    from nltk.corpus import stopwords
+    from nltk.stem import PorterStemmer, WordNetLemmatizer
+    from sklearn.model_selection import train_test_split
+    import json
+    import pandas as pd
 
-# Lade NLTK-Ressourcen
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
+    # Lade NLTK-Ressourcen
+    nltk.download('punkt')
+    nltk.download('stopwords')
+    nltk.download('wordnet')
 
-# Initialisiere Stemming und Lemmatizer
-stemmer = PorterStemmer()
-lemmatizer = WordNetLemmatizer()
+    # Initialisiere Stemming und Lemmatizer
+    stemmer = PorterStemmer()
+    lemmatizer = WordNetLemmatizer()
 
-# Stoppwörter für die deutsche Sprache
-stop_words = set(stopwords.words('german'))
+    # Stoppwörter für die deutsche Sprache
+    stop_words = set(stopwords.words('german'))
 
-# Funktion zur Bereinigung des Textes
-def clean_text(text):
-    # Entferne HTML-Tags
-    text = re.sub(r'<.*?>', '', text)
-    # Entferne Sonderzeichen und Zahlen
-    text = re.sub(r'[^A-Za-zäöüßÄÖÜ ]+', '', text)
-    # Konvertiere den Text in Kleinbuchstaben
-    text = text.lower()
-    return text
+    # Funktion zur Bereinigung des Textes
+    def clean_text(text):
+        # Entferne HTML-Tags
+        text = re.sub(r'<.*?>', '', text)
+        # Entferne Sonderzeichen und Zahlen
+        text = re.sub(r'[^A-Za-zäöüßÄÖÜ ]+', '', text)
+        # Konvertiere den Text in Kleinbuchstaben
+        text = text.lower()
+        return text
 
-# Funktion zur Tokenisierung des Textes
-def tokenize(text):
-    # Tokenisierung des Textes in Wörter
-    return nltk.word_tokenize(text)
+    # Funktion zur Tokenisierung des Textes
+    def tokenize(text):
+        # Tokenisierung des Textes in Wörter
+        return nltk.word_tokenize(text)
 
-# Funktion zur Entfernung von Stoppwörtern
-def remove_stopwords(tokens):
-    return [word for word in tokens if word not in stop_words]
+    # Funktion zur Entfernung von Stoppwörtern
+    def remove_stopwords(tokens):
+        return [word for word in tokens if word not in stop_words]
 
-# Funktion zur Normalisierung: Stemming oder Lemmatization
-def normalize(tokens, method='lemmatization'):
-    if method == 'stemming':
-        return [stemmer.stem(word) for word in tokens]
-    elif method == 'lemmatization':
-        return [lemmatizer.lemmatize(word) for word in tokens]
-    else:
-        raise ValueError("Methode muss 'stemming' oder 'lemmatization' sein")
+    # Funktion zur Normalisierung: Stemming oder Lemmatization
+    def normalize(tokens, method='lemmatization'):
+        if method == 'stemming':
+            return [stemmer.stem(word) for word in tokens]
+        elif method == 'lemmatization':
+            return [lemmatizer.lemmatize(word) for word in tokens]
+        else:
+            raise ValueError("Methode muss 'stemming' oder 'lemmatization' sein")
 
-# Funktion zur Vorbereitung und Strukturierung der Daten
-def prepare_data(texts, method='lemmatization', test_size=0.2):
-    # Bereinigung und Tokenisierung
-    cleaned_texts = [clean_text(text) for text in texts]
-    tokenized_texts = [tokenize(text) for text in cleaned_texts]
-    # Entfernen von Stoppwörtern
-    tokenized_texts = [remove_stopwords(tokens) for tokens in tokenized_texts]
-    # Normalisierung der Token (Stemming oder Lemmatization)
-    normalized_texts = [normalize(tokens, method) for tokens in tokenized_texts]
-    # Strukturierung der Daten (Trainings- und Testdaten)
-    train_data, test_data = train_test_split(normalized_texts, test_size=test_size, random_state=42)
-    
-    return train_data, test_data
+    # Funktion zur Vorbereitung und Strukturierung der Daten
+    def prepare_data(texts, method='lemmatization', test_size=0.2):
+        # Bereinigung und Tokenisierung
+        cleaned_texts = [clean_text(text) for text in texts]
+        tokenized_texts = [tokenize(text) for text in cleaned_texts]
+        # Entfernen von Stoppwörtern
+        tokenized_texts = [remove_stopwords(tokens) for tokens in tokenized_texts]
+        # Normalisierung der Token (Stemming oder Lemmatization)
+        normalized_texts = [normalize(tokens, method) for tokens in tokenized_texts]
+        # Strukturierung der Daten (Trainings- und Testdaten)
+        train_data, test_data = train_test_split(normalized_texts, test_size=test_size, random_state=42)
+        
+        return train_data, test_data
 
-# Beispieltext
-texts = [
-    "Der Hund läuft im Park und spielt mit anderen Hunden.",
-    "Die Katze schläft auf der Couch und genießt die Sonne.",
-    "Wir gehen morgen ins Kino und essen Pizza.",
-]
+    # Beispieltext
+    texts = [
+        "Der Hund läuft im Park und spielt mit anderen Hunden.",
+        "Die Katze schläft auf der Couch und genießt die Sonne.",
+        "Wir gehen morgen ins Kino und essen Pizza.",
+    ]
 
-# Bereite die Daten vor
-train_data, test_data = prepare_data(texts, method='lemmatization')
+    # Bereite die Daten vor
+    train_data, test_data = prepare_data(texts, method='lemmatization')
 
-# Zeige die vorbereiteten Trainings- und Testdaten
-print("Trainingsdaten:", train_data)
-print("Testdaten:", test_data)
+    # Zeige die vorbereiteten Trainings- und Testdaten
+    print("Trainingsdaten:", train_data)
+    print("Testdaten:", test_data)
 
-# Optional: Speichere die Daten als JSON
-with open('train_data.json', 'w', encoding='utf-8') as f:
-    json.dump(train_data, f, ensure_ascii=False, indent=4)
+    # Optional: Speichere die Daten als JSON
+    with open('train_data.json', 'w', encoding='utf-8') as f:
+        json.dump(train_data, f, ensure_ascii=False, indent=4)
 
-with open('test_data.json', 'w', encoding='utf-8') as f:
-    json.dump(test_data, f, ensure_ascii=False, indent=4)
+    with open('test_data.json', 'w', encoding='utf-8') as f:
+        json.dump(test_data, f, ensure_ascii=False, indent=4)
 
-# Optional: Speichern als CSV
-df_train = pd.DataFrame(train_data, columns=['tokens'])
-df_train.to_csv('train_data.csv', index=False, encoding='utf-8')
+    # Optional: Speichern als CSV
+    df_train = pd.DataFrame(train_data, columns=['tokens'])
+    df_train.to_csv('train_data.csv', index=False, encoding='utf-8')
 
-df_test = pd.DataFrame(test_data, columns=['tokens'])
-df_test.to_csv('test_data.csv', index=False, encoding='utf-8')
+    df_test = pd.DataFrame(test_data, columns=['tokens'])
+    df_test.to_csv('test_data.csv', index=False, encoding='utf-8')
 
-```
+    ```
 
 ### 2.1 Schnittstellen
 Für ein Projekt, bei dem Flask (Backend) und React Native (Frontend) zusammenarbeiten, müssen Schnittstellen (APIs) geschaffen werden, um eine Kommunikation zwischen den beiden Systemen zu ermöglichen.
 Diese Schnittstellen werden üblicherweise als RESTful APIs oder GraphQL-APIs definiert. Im Folgenden werden die wesentlichen Aspekte und Schritte beschrieben, die für die Erstellung und den Betrieb dieser Schnittstellen notwendig sind:
 
 1. API-Design und -Struktur\
-    RESTful APIs: Flask wird typischerweise verwendet, um RESTful APIs zu erstellen. Das bedeutet, dass HTTP-Methoden (GET, POST, PUT, DELETE) verwendet werden, um mit den Daten des Backends zu interagieren.
+    RESTful APIs:\
+    Flask wird typischerweise verwendet, um RESTful APIs zu erstellen. Das bedeutet, dass HTTP-Methoden (GET, POST, PUT, DELETE) verwendet werden, um mit den Daten des Backends zu interagieren.
 
     Beispiel:\
     GET /api/users für eine Liste aller Benutzer, POST /api/login für den Login.\
@@ -579,17 +582,18 @@ Ein Sequence-to-Sequence (Seq2Seq)-Modell mit einem Encoder-Decoder-Architektur 
 Zunächst muss man die Eingabe- und Ausgabedaten für das Training vorbereiten. Das bedeutet, dass man ein Paar von Eingabe-Sätzen (z.B. einer Frage) und deren entsprechenden Ziel-Sätzen (z.B. einer Antwort) haben muss. Für das Seq2Seq-Modell muss jedes Satzpaar in Token konvertiert werden, die dann in numerische Indizes übersetzt werden, sodass das Modell sie verarbeiten kann.
 
 2. Encoder-Decoder Architektur
-Die Architektur besteht aus zwei Hauptkomponenten: _Encoder_ und _Decoder_.
-Encoder\
-Der Encoder nimmt eine Eingabesequenz und wandelt sie in eine abstrakte Repräsentation um, die als „Zustand“ bezeichnet wird. Das Ziel ist, den gesamten Kontext der Eingabe in einer kompakteren Form zu speichern.\
-Der Encoder besteht aus mehreren Schichten von Recurrent Neural Networks (RNNs) wie LSTMs oder GRUs, oder er kann durch einen Transformer ersetzt werden.\
-Die Eingabesequenz wird tokenisiert und als Vektor in das Modell eingespeist.
-Der Encoder gibt dann eine abstrakte Repräsentation des Eingabeworts (oft als ein Zustandsvektor oder eine Zustandssequenz bezeichnet) zurück.
-Decoder\
-Der Decoder nimmt die von Encoder erzeugte Repräsentation und generiert darauf basierend die Ausgabe. In einem typischen Chatbot-System sind die Ausgaben Texte, die als Antwort auf die Eingabe formuliert sind.
-Der Decoder wird in der Regel ebenfalls mit RNNs (LSTMs/GRUs) oder einem Transformer-Ansatz implementiert.\
-Die Decoder-Eingabe besteht aus der vorherigen Ausgabe oder einem speziellen Startzeichen während des Trainings.
-Der Decoder erzeugt eine Wort-sequenz, indem er die Ausgabe schrittweise generiert und die Wahrscheinlichkeit jedes nächsten Wortes in der Sequenz berechnet.
+Die Architektur besteht aus zwei Hauptkomponenten: _Encoder_ und _Decoder_.\
+
+    Encoder\
+    Der Encoder nimmt eine Eingabesequenz und wandelt sie in eine abstrakte Repräsentation um, die als „Zustand“ bezeichnet wird. Das Ziel ist, den gesamten Kontext der Eingabe in einer kompakteren Form zu speichern.\
+    Der Encoder besteht aus mehreren Schichten von Recurrent Neural Networks (RNNs) wie LSTMs oder GRUs, oder er kann durch einen Transformer ersetzt werden.\
+    Die Eingabesequenz wird tokenisiert und als Vektor in das Modell eingespeist.
+    Der Encoder gibt dann eine abstrakte Repräsentation des Eingabeworts (oft als ein Zustandsvektor oder eine Zustandssequenz bezeichnet) zurück.\
+    Decoder\
+    Der Decoder nimmt die von Encoder erzeugte Repräsentation und generiert darauf basierend die Ausgabe. In einem typischen Chatbot-System sind die Ausgaben Texte, die als Antwort auf die Eingabe formuliert sind.
+    Der Decoder wird in der Regel ebenfalls mit RNNs (LSTMs/GRUs) oder einem Transformer-Ansatz implementiert.\
+    Die Decoder-Eingabe besteht aus der vorherigen Ausgabe oder einem speziellen Startzeichen während des Trainings.
+    Der Decoder erzeugt eine Wort-sequenz, indem er die Ausgabe schrittweise generiert und die Wahrscheinlichkeit jedes nächsten Wortes in der Sequenz berechnet.
 
 3. Modellaufbau in TensorFlow
 Hier ein Beispiel für den grundlegenden Aufbau eines Seq2Seq Modells in TensorFlow unter Verwendung von LSTM-Zellen:
@@ -962,11 +966,3 @@ Emotionserkennung: Der Bot könnte mit Sentiment-Analyse und Emotionserkennung a
 Sprachmodell-Feinabstimmung: Feineinstellung der Sprachmodelle für eine besser angepasste Konversation.\
 Multimodale Fähigkeiten: Integriere Bild- und Audioverarbeitung für erweiterte Interaktionen.\
 
-
-### _Linkliste_
-<a href="">Python<a>\
-<a href="">NodeJS<a>\
-<a href="">VSCode<a>\
-<a href="">Kaggle<a>\
-<a href="">Hugginface<a>\
-<a href="">wikipedia<a>
