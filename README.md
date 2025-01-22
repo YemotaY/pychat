@@ -38,8 +38,6 @@
 
     # Unterverzeichnisse erstellen
     $subDirs = @(
-        "css",
-        "Copy",
         "chatbot_project\data",
         "chatbot_project\models",
         "chatbot_project\src",
@@ -61,8 +59,6 @@
     mkdir -p "$main_dir"
 
     # Unterverzeichnisse erstellen
-    mkdir -p "$main_dir/css"
-    mkdir -p "$main_dir/Copy"
     mkdir -p "$main_dir/chatbot_project/data"
     mkdir -p "$main_dir/chatbot_project/models"
     mkdir -p "$main_dir/chatbot_project/src"
