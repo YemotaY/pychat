@@ -1,4 +1,4 @@
-# Chatpy Ideensammlung 0.1
+# pychat Ideensammlung 0.1
 ## 1. Projektvorbereitung
 ### 1.1. Framework + Bibliotheken
 1. Frameworks\
@@ -22,8 +22,8 @@
     ```powershell
     Chatpy/
     ├── data/               >Trainingsdaten
-    ├── venvChatpy/         >python venv
-    ├── chatbot-webapp/     >reactNative
+    ├── venvpychat/         >python venv
+    ├── frontend/           >reactNative
     ├── models/             >Modellgewichte
     ├── src/                >Klassen/Sourcecode
     ├── tests/              >Unittests
@@ -73,8 +73,8 @@
 (sudo für unix immer selber hinzufügen!)
     ```powershell
     cd Chatpy
-    python -m venv venvChatpy
-    #venvChatpy aktivieren, Windows ->./venvChatpy/Scripts/activate.ps1
+    python -m venv venvpychat
+    #venvpychat aktivieren, Windows ->./venvpychat/Scripts/activate.ps1
     pip install numpy matplotlib pandas scikit-learn tensorflow\
     ```
 
@@ -841,7 +841,7 @@ Während der Erstellung wird man gefragt, ob eine Vorlage verwenden werden soll.
 Nachdem das Projekt erstellt wurde, kannst man in das Verzeichnis wechseln, um mit der Entwicklung zu beginnen.
 
     ```bash
-    cd chatbot-webapp
+    cd frontend
     ```
 1. Starten der App auf dem Webbrowser:\
 Expo ermöglicht es dir, die App sofort auf dem Webbrowser zu starten. Mit dem folgenden Befehl kann man das Webinterface im Browser anzeigen:
